@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "0433c035-efd7-40f6-988a-d50a5a523101",
+		"name": "Syntax",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31893670"
+	},
+	"item": [
+		{
+			"name": "createUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response Message\", function () {\r",
+							"    pm.expect(pm.response.json().Message).to.include(\"The email address you have entered is already registered\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"admina\",\r\n  \"email\": \"admin@syntaxhrm.com\",\r\n  \"password\": \"admin1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{CreateAdminUser}}",
+					"host": [
+						"{{BaseURL}}{{CreateAdminUser}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var token = pm.response.json().token;\r",
+							"    // console.log(\"Respone: \", token);\r",
+							"    pm.globals.set(\"SyntaxJWT\", `Bearer ${token}`);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@syntaxhrm.com\",\r\n  \"password\": \"admin1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{GenerateToken}}",
+					"host": [
+						"{{BaseURL}}{{GenerateToken}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    var employee_ID = pm.response.json().Employee.employee_id;\r",
+							"    // console.log(\"ID: \", employee_ID);\r",
+							"    pm.globals.set(\"employee_id\", employee_ID);\r",
+							"});\r",
+							"pm.test(\"Success Message\", function () {\r",
+							"    pm.expect(pm.response.json().Message).to.include(\"Employee Created\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"emp_firstname\": \"Alan\",\r\n  \"emp_lastname\": \"Walker\",\r\n  \"emp_middle_name\": \"S. \",\r\n  \"emp_gender\": \"M\",\r\n  \"emp_birthday\": \"1987-11-24\",\r\n  \"emp_status\": \"contract\",\r\n  \"emp_job_title\": \"Musician\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{CreateEmployee}}",
+					"host": [
+						"{{BaseURL}}{{CreateEmployee}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOneEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Connection is present\", function () {\r",
+							"    pm.response.to.have.header(\"Connection\");\r",
+							"});\r",
+							"pm.test(\"validate the response\", function() {\r",
+							"    const response = pm.response.json();\r",
+							"    // console.log(response)\r",
+							"    pm.expect(response.employee.emp_firstname).to.eql(\"Alan\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{GetOneEmployee}}?employee_id={{employee_id}}",
+					"host": [
+						"{{BaseURL}}{{GetOneEmployee}}"
+					],
+					"query": [
+						{
+							"key": "employee_id",
+							"value": "{{employee_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jobTitle",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 3 seconds\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}{{GetJobTitle}}",
+					"host": [
+						"{{BaseURL}}{{GetJobTitle}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllEmployees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Response time is less than 5 seconds\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}{{GetAllEmployees}}",
+					"host": [
+						"{{BaseURL}}{{GetAllEmployees}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Success Code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Success Message\", function () {\r",
+							"    pm.expect(pm.response.json().Message).to.include(\"Employee record Updated\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employee_id\": \"110182A\",\r\n  \"emp_firstname\": \"Alan\",\r\n  \"emp_lastname\": \"Walker\",\r\n  \"emp_middle_name\": \"S. \",\r\n  \"emp_gender\": \"M\",\r\n  \"emp_birthday\": \"1987-11-24\",\r\n  \"emp_status\": \"permanent\",\r\n  \"emp_job_title\": \"Musician\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{UpdateEmployee}}",
+					"host": [
+						"{{BaseURL}}{{UpdateEmployee}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePartialEmplyeesDetails",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Success Status\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Success Message\", function () {\r",
+							"    pm.expect(pm.response.json().Message).to.include(\"Employee record updated successfully\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"employee_id\": \"111807A\",\r\n  \"emp_middle_name\": \"Kennedy\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}{{UpdateEmployeePartially}}",
+					"host": [
+						"{{BaseURL}}{{UpdateEmployeePartially}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deleting Employee\", function () {\r",
+							"    if(pm.response.code==200) {\r",
+							"        pm.test(\"Status code is 200\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"\r",
+							"        pm.test(\"Success Message\", function () {\r",
+							"            pm.expect(pm.response.json().message).to.include(\"Employee deleted\");\r",
+							"        });\r",
+							"    }\r",
+							"    else {\r",
+							"        pm.test(\"Status code is 404\", function () {\r",
+							"            pm.response.to.have.status(404);\r",
+							"        });\r",
+							"\r",
+							"        pm.test(\"Invalid ID or Employee Already Deleted\", function () {\r",
+							"            pm.expect(pm.response.json().Massage).to.include(\"Employee does not exist or you have provided invalid employee_id\");\r",
+							"        });\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{SyntaxJWT}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}{{DeleteEmployee}}?employee_id={{employee_id}}",
+					"host": [
+						"{{BaseURL}}{{DeleteEmployee}}"
+					],
+					"query": [
+						{
+							"key": "employee_id",
+							"value": "{{employee_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

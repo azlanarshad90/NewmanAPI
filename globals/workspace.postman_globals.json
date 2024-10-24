@@ -1,0 +1,81 @@
+{
+	"id": "047a6a2e-cdc1-4f20-88dd-19af1a45f69e",
+	"values": [
+		{
+			"key": "CreateAdminUser",
+			"value": "/createUser.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "GenerateToken",
+			"value": "/generateToken.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "GetAllEmployees",
+			"value": "/getAllEmployees.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "GetOneEmployee",
+			"value": "/getOneEmployee.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "GetJobTitle",
+			"value": "/jobTitle.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "GetEmployeementStatus",
+			"value": "/employeementStatus.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "CreateEmployee",
+			"value": "/createEmployee.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "UpdateEmployee",
+			"value": "/updateEmployee.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "DeleteEmployee",
+			"value": "/deleteEmployee.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "UpdateEmployeePartially",
+			"value": "/updatePartialEmplyeesDetails.php",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "SyntaxJWT",
+			"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3Mjk3MTgyNTQsImlzcyI6ImxvY2FsaG9zdCIsImV4cCI6MTcyOTc2MTQ1NCwidXNlcklkIjoiNjc0MiJ9._xYNnfn6bNcJPl8fwNRJ4qbxWjZrEN4tEraU7_3gPKM",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "employee_id",
+			"value": "111771A",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2024-10-24T13:54:11.858Z",
+	"_postman_exported_using": "Postman/11.12.0"
+}
