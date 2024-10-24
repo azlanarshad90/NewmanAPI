@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "newman run collections/Syntax.postman_collection.json --environment environments/LiveClass.postman_environment.json --globals globals/workspace.postman_globals.json --reporters cli,htmlextra --reporter-htmlextra-export docs/testReport.html"
+    "test": "newman run collections/Syntax.postman_collection.json --environment environments/LiveClass.postman_environment.json --globals globals/workspace.postman_globals.json --reporters cli,htmlextra --reporter-htmlextra-export docs/index.html"
   },
   "keywords": [],
   "author": "",
